@@ -2,7 +2,6 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, status, Response
 
-from fixtures import categories as fixture_categories
 from schemas.category import Category, ResponseCategory
 
 

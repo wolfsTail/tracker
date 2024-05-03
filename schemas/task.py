@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
 class TaskStatus(str, Enum):
@@ -9,6 +9,8 @@ class TaskStatus(str, Enum):
 
 
 class Task(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     name: str | None = None
     time_periods: int | None = None
     status: TaskStatus = Field(default=TaskStatus.todo)
