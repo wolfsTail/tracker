@@ -19,3 +19,24 @@ class TaskService:
             task_from_db = ResponseTask.model_validate(task)
             await self.uow.commit()
             return task_from_db
+    
+    async def update_task(self, task_id: int, task: Task) -> ResponseTask:
+        task_dict: dict = task.model_dump()
+        async with self.uow:
+            task_updated = await self.uow.tasks.update_one(task_id, self.uow.session, task_dict)       
+
+            if task_updated:
+                task_from_bd = task_updated.model_validate(task)
+                await self.uow.commit()
+                return task_from_bd
+        
+        return None
+    
+    async def delete_one(self, task_id: int):
+        async with self.uow:
+            success = self.uow.tasks.delete_one(task_id, self.uow.session)
+            if success:
+                self.uow.commit()
+                return 1
+            return None
+
