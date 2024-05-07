@@ -1,11 +1,18 @@
-from schemas import Task, Category, ResponseCategory, ResponseTask
+from schemas import Task, ResponseTask
 
-from utils import UnitOfWork, AbstractUnitOfWork
+from utils import AbstractUnitOfWork
 
 
 class TaskService:
     def __init__(self, uow: AbstractUnitOfWork):
         self.uow = uow
+
+    async def get_one_task(self, task_id: int):
+        async with self.uow:
+            task = await self.uow.tasks.get_one(task_id, self.uow.session)
+            if task:
+                return ResponseTask.model_validate(task)
+            return None
 
     async def get_all_tasks(self) -> list[ResponseTask]:
         async with self.uow:

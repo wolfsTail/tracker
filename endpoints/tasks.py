@@ -1,15 +1,20 @@
-from typing import Annotated
-
 from fastapi import APIRouter, status, HTTPException, Depends
 
-from repository import TaskRepository
 from schemas.task import Task, ResponseTask
-from sqlalchemy.ext.asyncio import AsyncSession
 from service.depends import TaskService, get_task_service
 
 
 router = APIRouter(prefix="/tasks", tags=["tasks",])
 
+
+@router.get("/{task_id}", response_model=Task)
+async def get_task(
+    task_id: int, tasks_service: TaskService = Depends(get_task_service)
+):
+    task = await tasks_service.get_one_task(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Не найдено задачи с {task_id=}")
+    return task
 
 @router.get("/all", response_model=list[Task])
 async def get_all_tasks(

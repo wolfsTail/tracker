@@ -38,7 +38,7 @@ class BaseRepo:
 
     @classmethod
     async def get_one(
-        cls, item_id, db_session: AsyncSession
+        cls, item_id: int, db_session: AsyncSession
         ) -> model_name:
         stmt = select(cls.model_name).filter_by(id=item_id)
         result = await db_session.execute(stmt)
