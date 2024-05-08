@@ -13,3 +13,9 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
       POSTGRES_DB: local_db
+  
+  cache:
+    image: redis:7.2.4-alpine
+    restart: always
+    ports:
+      - "6379:6379"

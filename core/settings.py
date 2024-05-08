@@ -6,6 +6,10 @@ class Settings(BaseSettings):
     YANDEX_TOKEN_ID: str = "yandex_id"
     DB_NAME: str = "local_db"
     DB_PASSWORD: str
+
+    REDIS_HOST: str
+    REDIS_PORT: str
+    REDIS_DB: str
     
     class Config:
         env_file = ".env.local"
