@@ -35,8 +35,7 @@ class TaskService:
             if task_updated:
                 task_from_bd = task_updated.model_validate(task)
                 await self.uow.commit()
-                return task_from_bd
-        
+                return task_from_bd        
         return None
     
     async def delete_one(self, task_id: int):

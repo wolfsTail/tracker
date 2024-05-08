@@ -47,3 +47,4 @@ async def delete_task(
     result = await tasks_service.delete_one(task_id)
     if not result:
         raise HTTPException(status_code=404, detail="task not found")
+    return None
