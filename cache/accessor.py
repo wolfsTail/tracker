@@ -3,7 +3,7 @@ from redis import Redis
 from core import settings
 
 
+REDIS_URL = settings.REDIS_URL
+
 def get_redis_connection() -> Redis:
-    return Redis(
-        host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=settings.REDIS_DB
-        )
+    return Redis(url=REDIS_URL)
