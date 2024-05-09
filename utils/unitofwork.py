@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
 from database.database import async_session_maker
-from repository import TaskRepository, CategoryRepository
+from repository import TaskRepository, CategoryRepository, TaskCache
 
 
 class AbstractUnitOfWork(ABC):
     tasks: TaskRepository = TaskRepository
     category: CategoryRepository = CategoryRepository
+    cache: TaskCache = TaskCache
 
     @abstractmethod
     def __init__(self):
