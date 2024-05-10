@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     YANDEX_TOKEN_ID: str = "yandex_id"
     DB_USER: str = "postgres"
     DB_HOST: str = "localhost"
-    DB_PORT: str = 5432
+    DB_PORT: int = 5432
     DB_NAME: str = "local_db"
     DB_PASSWORD: str
 
@@ -16,8 +16,7 @@ class Settings(BaseSettings):
 
     @property
     def ASYNC_DATABASE_URL(self):
-        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:
-        {self.DB_PORT}/{self.DB_NAME}"
+        return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
     
     @property
     def REDIS_URL(self):

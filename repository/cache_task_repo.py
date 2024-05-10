@@ -9,12 +9,12 @@ from schemas import ResponseTask
 
 
 class TaskCache(BaseCacheRepo):
-    cache: Redis = Depends(get_redis_connection)
+    cache: Redis = get_redis_connection
     model = ResponseTask
 
     @classmethod
     def get_list_items(cls) -> list[ResponseTask]:
-        with cls.cache as redis:
+        with cls.cache() as redis:
             result_json = redis.lrange("tasks", 0, -1)
             return [cls.model.model_validate(json.loads(task)) for task in result_json]
         
