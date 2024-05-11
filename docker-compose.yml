@@ -8,6 +8,8 @@ services:
     shm_size: 128 mb
     ports:
       - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
     environment:
       POSTGRES_PASSWORD: password
@@ -19,3 +21,11 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    volumes:
+      - cache_data:/data
+
+volumes:
+  db_data:
+    driver: local
+  cache_data:
+    driver: local
