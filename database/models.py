@@ -22,3 +22,12 @@ class Categories(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(64))
     type: Mapped[str] = mapped_column(String(16), default="default")
+
+
+class User(Base):
+    __tablename__ = "Users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    username: Mapped[str] = mapped_column(String(64), nullable=False)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)
+    access_token: Mapped[str] = mapped_column(nullable=False)

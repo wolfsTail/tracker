@@ -43,6 +43,14 @@ class BaseRepo:
         stmt = select(cls.model_name).filter_by(id=item_id)
         result = await db_session.execute(stmt)
         return result.scalar_one_or_none()
+    
+    @classmethod
+    async def get_by_filter(
+        cls, filters: dict, db_session: AsyncSession
+    ) -> list[model_name]:
+        stmt = select(cls.model_name).filter_by(**filters)
+        result = await db_session.execute(stmt)
+        return result.scalars().all()
 
     @classmethod
     async def get_all(
