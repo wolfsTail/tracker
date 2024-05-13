@@ -1,3 +1,4 @@
+from typing import Optional
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 
@@ -30,4 +31,3 @@ class User(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     username: Mapped[str] = mapped_column(String(64), nullable=False)
     password: Mapped[str] = mapped_column(String(128), nullable=False)
-    access_token: Mapped[str] = mapped_column(nullable=False)

@@ -10,12 +10,11 @@ class UserRepository(BaseRepo):
 
     @classmethod
     async def create_user(
-        cls, username: str, password: str, access_token: str
+        cls, username: str, password: str,
         ) -> User:
         user_data = {
             "username": username,
-            "password": password,
-            "access_token": access_token,
+            "password": password,          
         }
         user = await cls.create_one(user_data, cls.current_session())
         return user

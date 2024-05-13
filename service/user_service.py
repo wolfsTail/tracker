@@ -3,19 +3,18 @@ from dataclasses import dataclass
 
 from schemas import UserLoginSchema
 from repository import UserRepository
+from service.auth_service import AuthService
 
 
 @dataclass
 class UserService:
     user_repo = UserRepository
+    auth_service = AuthService
 
     async def create_user(
             self, username: str, password: str,
             ) -> UserLoginSchema:
-        access_token = self._dummy_generate_access_token()
-        user = await self.user_repo.create_user(username, password, access_token)
-        return UserLoginSchema(user_id=user.id, access_token=user.access_token)
-    
-    @staticmethod
-    def _dummy_generate_access_token(n=19) -> str:
-        return "".join(random.choice(string.ascii_uppercase + string.digits) for _ in range(n))
+        user = await self.user_repo.create_user(username, password)
+        access_token = self.auth_service.dummy_generate_access_token(user.id)
+
+        return UserLoginSchema(user_id=user.id, access_token=access_token)
