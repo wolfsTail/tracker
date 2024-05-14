@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, HTTPException, Depends
 
 from schemas.task import Task, ResponseTask
-from service.depends import TaskService, get_task_service, TaskCache
+from service.depends import TaskService, get_request_user_id, get_task_service
 
 
 router = APIRouter(prefix="/tasks", tags=["tasks",])
@@ -31,7 +31,9 @@ async def get_task(
 
 @router.post("/", response_model=ResponseTask)
 async def create_task(
-    task: Task, tasks_service: TaskService = Depends(get_task_service)
+    task: Task, 
+    tasks_service: TaskService = Depends(get_task_service),
+    user_id: int = Depends(get_request_user_id)
     ):
     return await tasks_service.create_task(task)
 

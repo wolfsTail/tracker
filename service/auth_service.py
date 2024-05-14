@@ -1,12 +1,12 @@
 from datetime import timedelta, datetime
 from dataclasses import dataclass
 
-from jose import jwt
+from jose import jwt, JWTError
 
 from core.settings import settings
 from schemas import UserLoginSchema
 from repository import UserRepository
-from utils import UserNotFoundException, UserNotAwailable
+from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, TokenNotValidError
 
 
 @dataclass
@@ -23,11 +23,19 @@ class AuthService:
         if current_user.password != password:
             raise UserNotAwailable
         
-        access_token = self.dummy_generate_access_token(iser_id=current_user.id)
+        access_token = await self.dummy_generate_access_token(iser_id=current_user.id)
 
         return UserLoginSchema(
                 user_id=current_user.id, access_token=access_token
                 )
+
+    async def get_user_id_from_access_token(
+            self, token: str
+    ) -> int:
+        payload = await self.decode_access_token(token)
+        if payload["expire"] < datetime.utcnow().timestamp():
+            raise TokenExpireError
+        return payload["user_id"]
         
     @staticmethod
     async def dummy_generate_access_token(user_id: int) -> str:
@@ -40,3 +48,12 @@ class AuthService:
             claims, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM,
         )
         return token
+    
+    @staticmethod
+    async def decode_access_token(token: str) -> dict[str, str]:
+        try:
+            payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM,])
+        except JWTError:
+            raise TokenNotValidError
+        
+        return payload

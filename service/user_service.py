@@ -15,6 +15,6 @@ class UserService:
             self, username: str, password: str,
             ) -> UserLoginSchema:
         user = await self.user_repo.create_user(username, password)
-        access_token = self.auth_service.dummy_generate_access_token(user.id)
+        access_token = await self.auth_service.dummy_generate_access_token(user.id)
 
         return UserLoginSchema(user_id=user.id, access_token=access_token)
