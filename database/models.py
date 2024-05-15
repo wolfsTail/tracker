@@ -1,4 +1,6 @@
-from sqlalchemy import Integer, String
+from typing import Optional
+
+from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
 
 
@@ -14,6 +16,7 @@ class Tasks(Base):
     time_periods: Mapped[int] = mapped_column(Integer)
     status: Mapped[str] = mapped_column(String(16), default="to do")
     category_id: Mapped[int] = mapped_column(Integer)
+    user_id: Mapped[int] = mapped_column(ForeignKey("Users.id"), nullable=False)
 
 
 class Categories(Base):
@@ -22,3 +25,11 @@ class Categories(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(64))
     type: Mapped[str] = mapped_column(String(16), default="default")
+
+
+class User(Base):
+    __tablename__ = "Users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    username: Mapped[str] = mapped_column(String(64), nullable=False)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)

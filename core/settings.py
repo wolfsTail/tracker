@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     REDIS_PORT: str
     REDIS_DB: str
 
+    JWT_ALGORITHM: str = "HS256"
+    JWT_SECRET_KEY: str = "secret"
+
     @property
     def ASYNC_DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
