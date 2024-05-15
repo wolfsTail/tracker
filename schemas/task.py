@@ -19,3 +19,4 @@ class Task(BaseModel):
 
 class ResponseTask(Task):
     id: int
+    user_id: int

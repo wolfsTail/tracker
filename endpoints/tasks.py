@@ -9,11 +9,12 @@ router = APIRouter(prefix="/tasks", tags=["tasks",])
 
 @router.get("/all", response_model=list[Task])
 async def get_all_tasks(
-    tasks_service: TaskService = Depends(get_task_service)    
+    tasks_service: TaskService = Depends(get_task_service),
+    user_id: int = Depends(get_request_user_id)    
 ):
-    tasks = await tasks_service.get_all_tasks()
+    tasks = await tasks_service.get_all_tasks(user_id)
     if not tasks:
-        raise HTTPException(status_code=404, detail="Не найдено ни одной задачи")
+        raise HTTPException(status_code=404, detail="You have not any tasks!")
     return tasks
 
 
@@ -21,8 +22,9 @@ async def get_all_tasks(
 async def get_task(
     task_id: int, 
     tasks_service: TaskService = Depends(get_task_service),
+    user_id: int = Depends(get_request_user_id)
 ):
-    task = await tasks_service.get_one_task(task_id)
+    task = await tasks_service.get_one_task(task_id, user_id)
 
     if not task:
         raise HTTPException(status_code=404, detail=f"Не найдено задачи с {task_id=}")
@@ -35,21 +37,26 @@ async def create_task(
     tasks_service: TaskService = Depends(get_task_service),
     user_id: int = Depends(get_request_user_id)
     ):
-    return await tasks_service.create_task(task)
+    return await tasks_service.create_task(task, user_id)
 
 
 @router.patch("/", response_model=ResponseTask, status_code=status.HTTP_202_ACCEPTED)
 async def update_task(
-    task_id: int, task: Task, tasks_service: TaskService = Depends(get_task_service)
+    task_id: int, 
+    task: Task, 
+    tasks_service: TaskService = Depends(get_task_service),
+    user_id: int = Depends(get_request_user_id)
 ):
-    return await tasks_service.update_task(task_id, task)
+    return await tasks_service.update_task(task_id, task, user_id)
 
 
 @router.delete(path="/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_task(
-    task_id: int, tasks_service: TaskService = Depends(get_task_service)
+    task_id: int, 
+    tasks_service: TaskService = Depends(get_task_service),
+    user_id: int = Depends(get_request_user_id)
 ):
-    result = await tasks_service.delete_one(task_id)
+    result = await tasks_service.delete_one(task_id, user_id)
     if not result:
         raise HTTPException(status_code=404, detail="task not found")
     return None

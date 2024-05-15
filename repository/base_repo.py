@@ -54,7 +54,7 @@ class BaseRepo:
 
     @classmethod
     async def get_all(
-        cls, db_session: AsyncSession
+        cls, db_session: AsyncSession,
         ) -> list[model_name]:
         stmt = select(cls.model_name)
         result = await db_session.execute(stmt)
