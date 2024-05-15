@@ -13,6 +13,12 @@ from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, Tok
 class AuthService:
     user_repo = UserRepository
 
+    async def get_login_google_redirect(self) -> str:
+        return settings.GOOGLE_REDIRECT_URL
+
+    async def google_auth(self, code: str):
+         ...
+
     async def login(
             self, username: str, password: str
         ) -> UserLoginSchema:

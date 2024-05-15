@@ -2,7 +2,9 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    GOOGLE_TOKEN_ID: str = "google_id"
+    GOOGLE_CLIENT_ID: str = "google_id"
+    GOOGLE_REDIRECT_URI: str = "GOOLE_URI"
+    GOOGLE_TOKEN_URL: str = "https://accounts_google.com/o/oauth2/token"
     YANDEX_TOKEN_ID: str = "yandex_id"
     DB_USER: str = "postgres"
     DB_HOST: str = "localhost"
@@ -25,6 +27,11 @@ class Settings(BaseSettings):
     def REDIS_URL(self):
         return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
     
+    @property
+    def GOOGLE_REDIRECT_URL(self):
+        return f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={self.GOOGLE_CLIENT_ID}&redirect_uri={self.GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
+  
+
     class Config:
         env_file = ".env.local"
         env_file_encoding = "utf-8"
