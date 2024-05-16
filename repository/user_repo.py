@@ -1,5 +1,6 @@
 from repository.base_repo import BaseRepo
 
+from schemas import UserCreateSchema
 from database.database import async_session_maker
 from database.models import User
 
@@ -10,11 +11,10 @@ class UserRepository(BaseRepo):
 
     @classmethod
     async def create_user(
-        cls, username: str, password: str,
+        cls, user: UserCreateSchema
         ) -> User:
         user_data = {
-            "username": username,
-            "password": password,          
+            **user.model_dump()
         }
         user = await cls.create_one(user_data, cls.current_session())
         return user
@@ -23,6 +23,10 @@ class UserRepository(BaseRepo):
     async def get_user(cls, user_id: int) -> User | None:
         user = await cls.get_one(user_id, cls.current_session())
         return user
+    
+    @classmethod
+    async def get_google_user():
+        ...
 
     @classmethod
     async def get_user_by_username(cls, username: str) -> User | None:
