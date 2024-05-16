@@ -24,14 +24,13 @@ async def login_goole(
 
 
 @router.get(
-      "/auth/google",  
+      "/google",  
 )
 async def google_auth(
         code: str,
         auth_service: Annotated[AuthService ,Depends(get_auth_service)]
 ):
     return await auth_service.google_auth(code)
-    
 
 
 @router.post(

@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     GOOGLE_CLIENT_ID: str = "google_id"
     GOOGLE_REDIRECT_URI: str = "GOOLE_URI"
     GOOGLE_TOKEN_URL: str = "https://accounts_google.com/o/oauth2/token"
+    GOOGLE_CLIENT_SECRET: str = "google_secret"
     YANDEX_TOKEN_ID: str = "yandex_id"
     DB_USER: str = "postgres"
     DB_HOST: str = "localhost"

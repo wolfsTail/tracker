@@ -2,6 +2,7 @@ from datetime import timedelta, datetime
 from dataclasses import dataclass
 
 from jose import jwt, JWTError
+from clients import GoogleClient
 
 from core.settings import settings
 from schemas import UserLoginSchema
@@ -11,13 +12,15 @@ from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, Tok
 
 @dataclass
 class AuthService:
+    google_client = GoogleClient
     user_repo = UserRepository
 
     async def get_login_google_redirect(self) -> str:
         return settings.GOOGLE_REDIRECT_URL
 
     async def google_auth(self, code: str):
-         ...
+         user_data = self.google_client.get_user_info(code)
+         self.user_repo.create_user()
 
     async def login(
             self, username: str, password: str
