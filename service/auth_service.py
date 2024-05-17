@@ -21,7 +21,7 @@ class AuthService:
     async def google_auth(self, code: str):
         user_data = self.google_client.get_user_info(code)
 
-        if user := await self.user_repo.get_google_user(google_token=user_data.access_token):
+        if user := await self.user_repo.get_user_by_email(email=user_data.email):
             access_token = await self.dummy_generate_access_token(iser_id=user.id)
             return UserLoginSchema(user_id=user.id, access_token=access_token)            
 

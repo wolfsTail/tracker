@@ -25,8 +25,14 @@ class UserRepository(BaseRepo):
         return user
     
     @classmethod
-    async def get_google_user():
-        ...
+    async def get_user_by_email(cls, email: str) -> User | None:
+        filter = {
+            "email": email,
+        }
+        user = await cls.get_by_filter(filter, cls.current_session())
+        if user:
+            return user[0]
+        return None
 
     @classmethod
     async def get_user_by_username(cls, username: str) -> User | None:
