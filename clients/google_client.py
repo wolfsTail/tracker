@@ -24,7 +24,7 @@ class GoogleClient():
             "code": code,
             "client_id": self.settings.GOOGLE_CLIENT_ID,
             "client_secret": self.settings.GOOGLE_CLIENT_SECRET,
-            "redirect_iri": self.settings.GOOGLE_REDIRECT_URI,
+            "redirect_uri": self.settings.GOOGLE_REDIRECT_URI,
             "grant_type": "authorization_code",
         }
         response = requests.post(

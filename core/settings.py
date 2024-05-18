@@ -6,9 +6,11 @@ class Settings(BaseSettings):
     GOOGLE_REDIRECT_URI: str = "GOOLE_URI"
     GOOGLE_TOKEN_URL: str = "https://accounts_google.com/o/oauth2/token"
     GOOGLE_CLIENT_SECRET: str = "google_secret"
+
     YANDEX_CLIENT_ID: str = "yandex_id"
     YANDEX_REDIRECT_URI: str = "yandex_uri"
     YANDEX_CLIENT_SECRET: str = "yandex_secret"
+    YANDEX_TOKEN_URL: str = "yandex_token_url"
 
     DB_USER: str = "postgres"
     DB_HOST: str = "localhost"
@@ -34,7 +36,10 @@ class Settings(BaseSettings):
     @property
     def GOOGLE_REDIRECT_URL(self):
         return f"https://accounts.google.com/o/oauth2/auth?response_type=code&client_id={self.GOOGLE_CLIENT_ID}&redirect_uri={self.GOOGLE_REDIRECT_URI}&scope=openid%20profile%20email&access_type=offline"
-  
+
+    @property
+    def YANDEX_REDIRECT_URL(self):
+        return f"https://oauth.yandex.ru/authorize?response_type=code&client_id={self.YANDEX_CLIENT_ID}&redirect_uri={self.YANDEX_REDIRECT_URI}"
 
     class Config:
         env_file = ".env.local"
