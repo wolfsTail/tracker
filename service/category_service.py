@@ -9,12 +9,12 @@ class CategoryService:
 
     async def get_one_category(self, category_id: int):
         async with self.uow:
-            if category := self.uow.cache_categories.get_item(category_id):
+            if category := await self.uow.cache_categories.get_item(category_id):
                 return category
             category = await self.uow.category.get_one(category_id, self.uow.session)
             if category:
                 response_category = ResponseCategory.model_validate(category)
-                self.uow.cache_categories.set_item(response_category)
+                await self.uow.cache_categories.set_item(response_category)
                 return response_category
             return None
 
@@ -26,7 +26,7 @@ class CategoryService:
             response_categories = []
             if categories:
                 response_categories = [ResponseCategory.model_validate(category) for category in categories]
-                self.uow.cache_categories.set_list_items(response_categories)
+                await self.uow.cache_categories.set_list_items(response_categories)
             return response_categories
     
     async def create_category(self, category: Category) -> ResponseCategory:
