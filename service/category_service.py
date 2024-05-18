@@ -23,6 +23,7 @@ class CategoryService:
             if categories := self.uow.cache_categories.get_list_items():
                 return categories
             categories = await self.uow.category.get_all(self.uow.session)
+            response_categories = []
             if categories:
                 response_categories = [ResponseCategory.model_validate(category) for category in categories]
                 self.uow.cache_categories.set_list_items(response_categories)

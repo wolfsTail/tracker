@@ -2,16 +2,37 @@ from datetime import timedelta, datetime
 from dataclasses import dataclass
 
 from jose import jwt, JWTError
+from clients import GoogleClient
 
 from core.settings import settings
-from schemas import UserLoginSchema
+from schemas import UserLoginSchema, UserCreateSchema
 from repository import UserRepository
 from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, TokenNotValidError
 
 
 @dataclass
 class AuthService:
+    google_client = GoogleClient
     user_repo = UserRepository
+
+    async def get_login_google_redirect(self) -> str:
+        return settings.GOOGLE_REDIRECT_URL
+
+    async def google_auth(self, code: str):
+        user_data = self.google_client.get_user_info(code)
+
+        if user := await self.user_repo.get_user_by_email(email=user_data.email):
+            access_token = await self.dummy_generate_access_token(iser_id=user.id)
+            return UserLoginSchema(user_id=user.id, access_token=access_token)            
+
+        create_user_data = UserCreateSchema(
+             google_access_token=user_data.access_token,
+             email=user_data.email,
+             name=user_data.name
+         )
+        created_user = await self.user_repo.create_user(create_user_data)
+        access_token = await self.dummy_generate_access_token(iser_id=created_user.id)
+        return UserLoginSchema(user_id=created_user.id, access_token=access_token)
 
     async def login(
             self, username: str, password: str
