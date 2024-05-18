@@ -6,7 +6,10 @@ class Settings(BaseSettings):
     GOOGLE_REDIRECT_URI: str = "GOOLE_URI"
     GOOGLE_TOKEN_URL: str = "https://accounts_google.com/o/oauth2/token"
     GOOGLE_CLIENT_SECRET: str = "google_secret"
-    YANDEX_TOKEN_ID: str = "yandex_id"
+    YANDEX_CLIENT_ID: str = "yandex_id"
+    YANDEX_REDIRECT_URI: str = "yandex_uri"
+    YANDEX_CLIENT_SECRET: str = "yandex_secret"
+
     DB_USER: str = "postgres"
     DB_HOST: str = "localhost"
     DB_PORT: int = 5432
