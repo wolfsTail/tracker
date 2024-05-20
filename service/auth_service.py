@@ -1,9 +1,11 @@
 from datetime import timedelta, datetime
 from dataclasses import dataclass
 
+from fastapi import Depends
 from jose import jwt, JWTError
 from clients import GoogleClient, YandexClient
 
+from service.depends import get_google_client, get_yandex_client
 from core.settings import settings
 from schemas import UserLoginSchema, UserCreateSchema
 from repository import UserRepository
@@ -12,8 +14,8 @@ from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, Tok
 
 @dataclass
 class AuthService:
-    yandex_client = YandexClient
-    google_client = GoogleClient
+    yandex_client: YandexClient = Depends(get_yandex_client)
+    google_client: GoogleClient = Depends(get_google_client)
     user_repo = UserRepository
 
     async def get_login_google_redirect(self) -> str:
@@ -23,7 +25,7 @@ class AuthService:
         return settings.YANDEX_REDIRECT_URL
 
     async def google_auth(self, code: str):
-        user_data = self.google_client.get_user_info(code)
+        user_data = await self.google_client.get_user_info(code)
 
         if user := await self.user_repo.get_user_by_email(email=user_data.email):
             access_token = await self.dummy_generate_access_token(iser_id=user.id)
@@ -39,7 +41,7 @@ class AuthService:
         return UserLoginSchema(user_id=created_user.id, access_token=access_token)
     
     async def yandex_auth(self, code: str):
-        user_data = self.yandex_client.get_user_info(code)
+        user_data = await self.yandex_client.get_user_info(code)
 
         if user := await self.user_repo.get_user_by_email(email=user_data.default_email):
             access_token = await self.dummy_generate_access_token(iser_id=user.id)

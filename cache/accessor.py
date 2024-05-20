@@ -1,3 +1,4 @@
+from redis import asyncio as redis
 from redis import Redis
 
 from core import settings
@@ -6,4 +7,4 @@ from core import settings
 REDIS_URL = settings.REDIS_URL
 
 def get_redis_connection() -> Redis:
-    return Redis.from_url(url=REDIS_URL)
+    return redis.from_url(url=REDIS_URL)
