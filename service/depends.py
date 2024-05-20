@@ -8,7 +8,7 @@ from service.category_service import CategoryService
 from service.user_service import UserService
 from service.auth_service import AuthService
 from utils.unitofwork import AbstractUnitOfWork, UnitOfWork
-from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, TokenNotValidError
+from utils import TokenExpireError, TokenNotValidError
 
 
 
