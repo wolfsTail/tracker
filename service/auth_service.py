@@ -5,7 +5,8 @@ from fastapi import Depends
 from jose import jwt, JWTError
 from clients import GoogleClient, YandexClient
 
-from service.depends import get_google_client, get_yandex_client
+
+
 from core.settings import settings
 from schemas import UserLoginSchema, UserCreateSchema
 from repository import UserRepository
@@ -14,8 +15,8 @@ from utils import UserNotFoundException, UserNotAwailable, TokenExpireError, Tok
 
 @dataclass
 class AuthService:
-    yandex_client: YandexClient = Depends(get_yandex_client)
-    google_client: GoogleClient = Depends(get_google_client)
+    yandex_client = YandexClient
+    google_client = GoogleClient
     user_repo = UserRepository
 
     async def get_login_google_redirect(self) -> str:
