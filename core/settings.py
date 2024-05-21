@@ -42,7 +42,7 @@ class Settings(BaseSettings):
         return f"https://oauth.yandex.ru/authorize?response_type=code&client_id={self.YANDEX_CLIENT_ID}&redirect_uri={self.YANDEX_REDIRECT_URI}"
 
     class Config:
-        env_file = ".env.local"
+        env_file = ".local.env"
         env_file_encoding = "utf-8"
 
 

@@ -1,5 +1,6 @@
 __pycache__
 .env*
+.local.env
 .venv
 venv
 alembic.ini
