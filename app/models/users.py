@@ -3,6 +3,8 @@ from typing import Optional
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import mapped_column, Mapped
 
+from app.models.base import Base
+
 
 class User(Base):
     __tablename__ = "Users"

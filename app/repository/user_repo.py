@@ -1,7 +1,7 @@
-from repository.base_repo import BaseRepo
+from app.repository.base_repo import BaseRepo
 
-from schemas import UserCreateSchema
-from database.database import async_session_maker
+from app.schemas import UserCreateSchema
+from app.database import async_session_maker
 from app.models import User
 
 

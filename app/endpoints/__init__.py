@@ -1,4 +1,4 @@
-from endpoints import ping, tasks, categories, users, auth
+from app.endpoints import ping, tasks, categories, users, auth
 
 
 routers = [
