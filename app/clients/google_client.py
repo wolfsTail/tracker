@@ -7,7 +7,7 @@ from app.core.settings import settings
 
 
 @dataclass
-class GoogleClient():
+class GoogleClient:
     async_client: httpx.AsyncClient
     settings: settings
 

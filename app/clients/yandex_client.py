@@ -7,7 +7,7 @@ from app.core.settings import settings
 
 
 @dataclass
-class YandexClient():
+class YandexClient:
     async_client: httpx.AsyncClient
     settings: settings
 

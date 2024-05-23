@@ -13,9 +13,9 @@ from app.utils import UserNotFoundException, UserNotAwailable, TokenExpireError,
 
 @dataclass
 class AuthService:
-    yandex_client = YandexClient
-    google_client = GoogleClient
-    user_repo = UserRepository
+    yandex_client: YandexClient
+    google_client: GoogleClient
+    user_repo: UserRepository
 
     async def get_login_google_redirect(self) -> str:
         return settings.GOOGLE_REDIRECT_URL
