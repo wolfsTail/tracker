@@ -1,9 +1,16 @@
 from dataclasses import dataclass
 
+import factory, factory.fuzzy
+from pytest_factoryboy import register
+from faker import Factory as FakerFactory
 import pytest
 import httpx
 
 from app.core import settings
+from app.schemas.auth import GoogleUserData, YandexUserData
+
+
+faker = FakerFactory.create()
 
 
 @dataclass
@@ -12,8 +19,7 @@ class FakeGoogleClient:
     settings: settings
 
     async def get_user_info(self, code: str) -> dict:
-        access_token = await self._get_user_access_token(code)
-        return {"access_token": access_token}
+        return google_user_info_data()
     
     async def _get_user_access_token(self, code: str) -> str:
         return f"access_token_not_real_with_{code}"    
@@ -25,8 +31,7 @@ class FakeYandexClient:
     settings: settings
 
     async def get_user_info(self, code: str) -> dict:
-        access_token = await self._get_user_access_token(code)
-        return {"access_token": access_token}
+        return yandex_user_info_data()
         
     async def _get_user_access_token(self, code: str):
         return f"yandex_access_token_with_code_{code}"
@@ -38,3 +43,21 @@ def google_client():
 @pytest.fixture
 def yandex_client():
     return FakeYandexClient(async_client=httpx.AsyncClient(), settings=settings)
+
+def google_user_info_data() -> GoogleUserData:
+    return GoogleUserData(
+        id=faker.random_int(),
+        email=faker.email(),
+        verified_email=True,
+        name=faker.name(),
+        access_token=faker.sha256(),
+    )
+
+def yandex_user_info_data() -> YandexUserData:
+    return YandexUserData(
+        id=faker.random_int(),
+        default_email=faker.email(),
+        login="bumshakalaka",
+        real_name=faker.name(),
+        access_token=faker.sha256(),
+    )
