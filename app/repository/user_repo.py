@@ -1,13 +1,14 @@
-from app.repository.base_repo import BaseRepo
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.repository.base_repo import BaseRepo
 from app.schemas import UserCreateSchema
 from app.database import async_session_maker
 from app.models import User
 
 
 class UserRepository(BaseRepo):
-    model_name = User
-    current_session = async_session_maker
+    model_name: User = User
+    current_session: AsyncSession = async_session_maker
 
     @classmethod
     async def create_user(

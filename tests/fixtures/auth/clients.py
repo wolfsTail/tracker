@@ -8,6 +8,7 @@ import httpx
 
 from app.core import settings
 from app.schemas.auth import GoogleUserData, YandexUserData
+from tests.fixtures.users.user_model import EXISTS_GOOGLE_USER_EMAIL, EXISTS_GOOGLE_USER_ID
 
 
 faker = FakerFactory.create()
@@ -46,8 +47,8 @@ def yandex_client():
 
 def google_user_info_data() -> GoogleUserData:
     return GoogleUserData(
-        id=faker.random_int(),
-        email=faker.email(),
+        id=EXISTS_GOOGLE_USER_ID,
+        email=EXISTS_GOOGLE_USER_EMAIL,
         verified_email=True,
         name=faker.name(),
         access_token=faker.sha256(),

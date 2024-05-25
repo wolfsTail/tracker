@@ -40,5 +40,5 @@ class FakeUserRepo:
     
 
 @pytest.fixture
-def user_repo():
+def fake_user_repo():
     return FakeUserRepo()
