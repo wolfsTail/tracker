@@ -5,7 +5,7 @@ from jose import jwt
 
 from app.core.settings import Settings
 from app.service.auth_service import AuthService
-from app.schemas import UserLoginSchema, UserCreateSchema
+from app.schemas import UserLoginSchema
 
 
 @pytest.mark.asyncio

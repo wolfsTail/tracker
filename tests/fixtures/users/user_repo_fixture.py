@@ -12,7 +12,7 @@ class FakeUserRepo:
 
     @classmethod
     async def create_user(
-        cls, user: UserCreateSchema
+        cls, *args, **kwargs
         ) -> User:
         return UserFactory()
 

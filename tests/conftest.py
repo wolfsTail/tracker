@@ -4,4 +4,5 @@ pytest_plugins = [
     "tests.fixtures.users.user_repo_fixture",
     "tests.fixtures.core_settings",
     "tests.fixtures.users.user_model",
+    "tests.fixtures.users.users_fixtures",
 ]

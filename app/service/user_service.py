@@ -7,8 +7,8 @@ from app.service.auth_service import AuthService
 
 @dataclass
 class UserService:
-    user_repo = UserRepository
-    auth_service = AuthService
+    user_repo: UserRepository = UserRepository
+    auth_service: AuthService = AuthService
 
     async def create_user(
             self, 
